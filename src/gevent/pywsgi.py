@@ -1053,6 +1053,8 @@ class WSGIHandler(object):
             self.result = self.application(self.environ, self.start_response)
             self.process_result()
         finally:
+
+            self.server.log.write('Luke + prewritten\n')
             close = getattr(self.result, 'close', None)
             try:
                 if close is not None:
@@ -1142,6 +1144,7 @@ class WSGIHandler(object):
         finally:
             self.time_finish = time.time()
             self.log_request()
+            self.server.log.write('Luke + written\n')
 
     def _send_error_response_if_possible(self, error_code):
         if self.response_length:
@@ -1151,7 +1154,6 @@ class WSGIHandler(object):
             try:
                 self.start_response(status, headers[:])
                 self.write(body)
-                self.server.log.write('Luke + written\n')
             except socket.error:
                 self.close_connection = True
 
