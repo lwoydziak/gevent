@@ -1035,6 +1035,7 @@ class WSGIHandler(object):
             delta)
 
     def process_result(self):
+        self.server.log.write('Luke + right before send\n')
         for data in self.result:
             if data:
                 self.write(data)
@@ -1045,16 +1046,17 @@ class WSGIHandler(object):
             self.write(b'')
         if self.response_use_chunked:
             self._sendall(b'0\r\n\r\n')
+        self.server.log.write('Luke + right after send\n')
 
 
     def run_application(self):
         assert self.result is None
         try:
+            self.server.log.write('Luke + preApp\n')
             self.result = self.application(self.environ, self.start_response)
             self.process_result()
         finally:
-
-            self.server.log.write('Luke + prewritten\n')
+            self.server.log.write('Luke + postwritten\n')
             close = getattr(self.result, 'close', None)
             try:
                 if close is not None:
