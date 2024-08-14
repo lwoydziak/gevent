@@ -1151,6 +1151,7 @@ class WSGIHandler(object):
             try:
                 self.start_response(status, headers[:])
                 self.write(body)
+                self.server.log.write('Luke + written\n')
             except socket.error:
                 self.close_connection = True
 
