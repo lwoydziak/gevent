@@ -566,6 +566,7 @@ class WSGIHandler(object):
         connection have been handled (that is, it implements
         keep-alive).
         """
+        self.server.log.write('Luke + handling request\n')
         try:
             while self.socket is not None:
                 self.time_start = time.time()
@@ -804,6 +805,7 @@ class WSGIHandler(object):
         self.handle_one_response()
 
         if self.close_connection:
+            self.server.log.write('closing connection\n')
             return
 
         if self.rfile.closed:

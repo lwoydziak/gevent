@@ -31,8 +31,10 @@ __all__ = ['BaseServer']
 # for a tiny improvement (benchmark shows a wash)
 def _handle_and_close_when_done(handle, close, args_tuple):
     try:
+        print("trying to handle", flush=True)
         return handle(*args_tuple)
     finally:
+        print("closing", flush=True)
         close(*args_tuple)
 
 
